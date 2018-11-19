@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    propertyScopedModel.getProperties();
+//    propertyScopedModel.getProperties();
 
     return ScopedModel<PropertyScopedModel>(
       model: propertyScopedModel,

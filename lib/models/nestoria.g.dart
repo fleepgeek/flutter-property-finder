@@ -73,11 +73,17 @@ class _$ResponseSerializer implements StructuredSerializer<Response> {
   Iterable serialize(Serializers serializers, Response object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
-      'listings',
-      serializers.serialize(object.listings,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(Property)])),
+      'total_results',
+      serializers.serialize(object.totalResults,
+          specifiedType: const FullType(int)),
     ];
+    if (object.listings != null) {
+      result
+        ..add('listings')
+        ..add(serializers.serialize(object.listings,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(Property)])));
+    }
 
     return result;
   }
@@ -97,6 +103,10 @@ class _$ResponseSerializer implements StructuredSerializer<Response> {
           result.listings.replace(serializers.deserialize(value,
               specifiedType: const FullType(
                   BuiltList, const [const FullType(Property)])) as BuiltList);
+          break;
+        case 'total_results':
+          result.totalResults = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
           break;
       }
     }
@@ -121,7 +131,55 @@ class _$PropertySerializer implements StructuredSerializer<Property> {
       'summary',
       serializers.serialize(object.summary,
           specifiedType: const FullType(String)),
+      'thumb_url',
+      serializers.serialize(object.thumbUrl,
+          specifiedType: const FullType(String)),
+      'img_url',
+      serializers.serialize(object.imgUrl,
+          specifiedType: const FullType(String)),
+      'car_spaces',
+      serializers.serialize(object.carSpaces,
+          specifiedType: const FullType(int)),
+      'price_formatted',
+      serializers.serialize(object.priceFormatted,
+          specifiedType: const FullType(String)),
     ];
+    if (object.propertyType != null) {
+      result
+        ..add('property_type')
+        ..add(serializers.serialize(object.propertyType,
+            specifiedType: const FullType(String)));
+    }
+    if (object.keywords != null) {
+      result
+        ..add('keywords')
+        ..add(serializers.serialize(object.keywords,
+            specifiedType: const FullType(String)));
+    }
+    if (object.listerName != null) {
+      result
+        ..add('lister_name')
+        ..add(serializers.serialize(object.listerName,
+            specifiedType: const FullType(String)));
+    }
+    if (object.listerUrl != null) {
+      result
+        ..add('lister_url')
+        ..add(serializers.serialize(object.listerUrl,
+            specifiedType: const FullType(String)));
+    }
+    if (object.datasourceName != null) {
+      result
+        ..add('datasource_name')
+        ..add(serializers.serialize(object.datasourceName,
+            specifiedType: const FullType(String)));
+    }
+    if (object.updatedDays != null) {
+      result
+        ..add('updated_in_days')
+        ..add(serializers.serialize(object.updatedDays,
+            specifiedType: const FullType(int)));
+    }
 
     return result;
   }
@@ -144,6 +202,46 @@ class _$PropertySerializer implements StructuredSerializer<Property> {
         case 'summary':
           result.summary = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
+          break;
+        case 'thumb_url':
+          result.thumbUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'img_url':
+          result.imgUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'car_spaces':
+          result.carSpaces = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'price_formatted':
+          result.priceFormatted = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'property_type':
+          result.propertyType = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'keywords':
+          result.keywords = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'lister_name':
+          result.listerName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'lister_url':
+          result.listerUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'datasource_name':
+          result.datasourceName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'updated_in_days':
+          result.updatedDays = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
           break;
       }
     }
@@ -244,13 +342,15 @@ class NestoriaBuilder implements Builder<Nestoria, NestoriaBuilder> {
 class _$Response extends Response {
   @override
   final BuiltList<Property> listings;
+  @override
+  final int totalResults;
 
   factory _$Response([void updates(ResponseBuilder b)]) =>
       (new ResponseBuilder()..update(updates)).build();
 
-  _$Response._({this.listings}) : super._() {
-    if (listings == null) {
-      throw new BuiltValueNullFieldError('Response', 'listings');
+  _$Response._({this.listings, this.totalResults}) : super._() {
+    if (totalResults == null) {
+      throw new BuiltValueNullFieldError('Response', 'totalResults');
     }
   }
 
@@ -264,17 +364,21 @@ class _$Response extends Response {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Response && listings == other.listings;
+    return other is Response &&
+        listings == other.listings &&
+        totalResults == other.totalResults;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, listings.hashCode));
+    return $jf($jc($jc(0, listings.hashCode), totalResults.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Response')..add('listings', listings))
+    return (newBuiltValueToStringHelper('Response')
+          ..add('listings', listings)
+          ..add('totalResults', totalResults))
         .toString();
   }
 }
@@ -287,11 +391,16 @@ class ResponseBuilder implements Builder<Response, ResponseBuilder> {
       _$this._listings ??= new ListBuilder<Property>();
   set listings(ListBuilder<Property> listings) => _$this._listings = listings;
 
+  int _totalResults;
+  int get totalResults => _$this._totalResults;
+  set totalResults(int totalResults) => _$this._totalResults = totalResults;
+
   ResponseBuilder();
 
   ResponseBuilder get _$this {
     if (_$v != null) {
       _listings = _$v.listings?.toBuilder();
+      _totalResults = _$v.totalResults;
       _$v = null;
     }
     return this;
@@ -314,12 +423,14 @@ class ResponseBuilder implements Builder<Response, ResponseBuilder> {
   _$Response build() {
     _$Response _$result;
     try {
-      _$result = _$v ?? new _$Response._(listings: listings.build());
+      _$result = _$v ??
+          new _$Response._(
+              listings: _listings?.build(), totalResults: totalResults);
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'listings';
-        listings.build();
+        _listings?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'Response', _$failedField, e.toString());
@@ -336,16 +447,61 @@ class _$Property extends Property {
   final String title;
   @override
   final String summary;
+  @override
+  final String thumbUrl;
+  @override
+  final String imgUrl;
+  @override
+  final int carSpaces;
+  @override
+  final String priceFormatted;
+  @override
+  final String propertyType;
+  @override
+  final String keywords;
+  @override
+  final String listerName;
+  @override
+  final String listerUrl;
+  @override
+  final String datasourceName;
+  @override
+  final int updatedDays;
 
   factory _$Property([void updates(PropertyBuilder b)]) =>
       (new PropertyBuilder()..update(updates)).build();
 
-  _$Property._({this.title, this.summary}) : super._() {
+  _$Property._(
+      {this.title,
+      this.summary,
+      this.thumbUrl,
+      this.imgUrl,
+      this.carSpaces,
+      this.priceFormatted,
+      this.propertyType,
+      this.keywords,
+      this.listerName,
+      this.listerUrl,
+      this.datasourceName,
+      this.updatedDays})
+      : super._() {
     if (title == null) {
       throw new BuiltValueNullFieldError('Property', 'title');
     }
     if (summary == null) {
       throw new BuiltValueNullFieldError('Property', 'summary');
+    }
+    if (thumbUrl == null) {
+      throw new BuiltValueNullFieldError('Property', 'thumbUrl');
+    }
+    if (imgUrl == null) {
+      throw new BuiltValueNullFieldError('Property', 'imgUrl');
+    }
+    if (carSpaces == null) {
+      throw new BuiltValueNullFieldError('Property', 'carSpaces');
+    }
+    if (priceFormatted == null) {
+      throw new BuiltValueNullFieldError('Property', 'priceFormatted');
     }
   }
 
@@ -361,19 +517,60 @@ class _$Property extends Property {
     if (identical(other, this)) return true;
     return other is Property &&
         title == other.title &&
-        summary == other.summary;
+        summary == other.summary &&
+        thumbUrl == other.thumbUrl &&
+        imgUrl == other.imgUrl &&
+        carSpaces == other.carSpaces &&
+        priceFormatted == other.priceFormatted &&
+        propertyType == other.propertyType &&
+        keywords == other.keywords &&
+        listerName == other.listerName &&
+        listerUrl == other.listerUrl &&
+        datasourceName == other.datasourceName &&
+        updatedDays == other.updatedDays;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, title.hashCode), summary.hashCode));
+    return $jf($jc(
+        $jc(
+            $jc(
+                $jc(
+                    $jc(
+                        $jc(
+                            $jc(
+                                $jc(
+                                    $jc(
+                                        $jc(
+                                            $jc($jc(0, title.hashCode),
+                                                summary.hashCode),
+                                            thumbUrl.hashCode),
+                                        imgUrl.hashCode),
+                                    carSpaces.hashCode),
+                                priceFormatted.hashCode),
+                            propertyType.hashCode),
+                        keywords.hashCode),
+                    listerName.hashCode),
+                listerUrl.hashCode),
+            datasourceName.hashCode),
+        updatedDays.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Property')
           ..add('title', title)
-          ..add('summary', summary))
+          ..add('summary', summary)
+          ..add('thumbUrl', thumbUrl)
+          ..add('imgUrl', imgUrl)
+          ..add('carSpaces', carSpaces)
+          ..add('priceFormatted', priceFormatted)
+          ..add('propertyType', propertyType)
+          ..add('keywords', keywords)
+          ..add('listerName', listerName)
+          ..add('listerUrl', listerUrl)
+          ..add('datasourceName', datasourceName)
+          ..add('updatedDays', updatedDays))
         .toString();
   }
 }
@@ -389,12 +586,64 @@ class PropertyBuilder implements Builder<Property, PropertyBuilder> {
   String get summary => _$this._summary;
   set summary(String summary) => _$this._summary = summary;
 
+  String _thumbUrl;
+  String get thumbUrl => _$this._thumbUrl;
+  set thumbUrl(String thumbUrl) => _$this._thumbUrl = thumbUrl;
+
+  String _imgUrl;
+  String get imgUrl => _$this._imgUrl;
+  set imgUrl(String imgUrl) => _$this._imgUrl = imgUrl;
+
+  int _carSpaces;
+  int get carSpaces => _$this._carSpaces;
+  set carSpaces(int carSpaces) => _$this._carSpaces = carSpaces;
+
+  String _priceFormatted;
+  String get priceFormatted => _$this._priceFormatted;
+  set priceFormatted(String priceFormatted) =>
+      _$this._priceFormatted = priceFormatted;
+
+  String _propertyType;
+  String get propertyType => _$this._propertyType;
+  set propertyType(String propertyType) => _$this._propertyType = propertyType;
+
+  String _keywords;
+  String get keywords => _$this._keywords;
+  set keywords(String keywords) => _$this._keywords = keywords;
+
+  String _listerName;
+  String get listerName => _$this._listerName;
+  set listerName(String listerName) => _$this._listerName = listerName;
+
+  String _listerUrl;
+  String get listerUrl => _$this._listerUrl;
+  set listerUrl(String listerUrl) => _$this._listerUrl = listerUrl;
+
+  String _datasourceName;
+  String get datasourceName => _$this._datasourceName;
+  set datasourceName(String datasourceName) =>
+      _$this._datasourceName = datasourceName;
+
+  int _updatedDays;
+  int get updatedDays => _$this._updatedDays;
+  set updatedDays(int updatedDays) => _$this._updatedDays = updatedDays;
+
   PropertyBuilder();
 
   PropertyBuilder get _$this {
     if (_$v != null) {
       _title = _$v.title;
       _summary = _$v.summary;
+      _thumbUrl = _$v.thumbUrl;
+      _imgUrl = _$v.imgUrl;
+      _carSpaces = _$v.carSpaces;
+      _priceFormatted = _$v.priceFormatted;
+      _propertyType = _$v.propertyType;
+      _keywords = _$v.keywords;
+      _listerName = _$v.listerName;
+      _listerUrl = _$v.listerUrl;
+      _datasourceName = _$v.datasourceName;
+      _updatedDays = _$v.updatedDays;
       _$v = null;
     }
     return this;
@@ -415,7 +664,20 @@ class PropertyBuilder implements Builder<Property, PropertyBuilder> {
 
   @override
   _$Property build() {
-    final _$result = _$v ?? new _$Property._(title: title, summary: summary);
+    final _$result = _$v ??
+        new _$Property._(
+            title: title,
+            summary: summary,
+            thumbUrl: thumbUrl,
+            imgUrl: imgUrl,
+            carSpaces: carSpaces,
+            priceFormatted: priceFormatted,
+            propertyType: propertyType,
+            keywords: keywords,
+            listerName: listerName,
+            listerUrl: listerUrl,
+            datasourceName: datasourceName,
+            updatedDays: updatedDays);
     replace(_$result);
     return _$result;
   }

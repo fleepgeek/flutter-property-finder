@@ -12,22 +12,22 @@ class PropertyScopedModel extends Model{
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  Future<dynamic> getData() async{
-    String uri = "https://api.nestoria.co.uk/api?encoding=json&pretty=1&action=search_listings&country=uk&listing_type=buy&place_name=brighton";
+  Future<dynamic> _getData(String place) async{
+    String uri = "https://api.nestoria.co.uk/api?encoding=json&pretty=1&action=search_listings&has_photo=1&country=uk&listing_type=buy&place_name=$place";
     var res = await http.get(Uri.encodeFull(uri));
     return json.decode(res.body);
   }
 
-  Future getProperties() async{
+  Future getProperties(String place) async{
     _isLoading = true;
     notifyListeners();
 
-    var responseData = await getData();
+    var responseData = await _getData(place);
 
     Nestoria nestoria = serializers.deserializeWith(Nestoria.serializer, responseData);
 
     _properties = nestoria.response.listings.map((property) => property).toList();
-    
+
     _isLoading = false;
     notifyListeners();
   }
