@@ -24,6 +24,11 @@ abstract class Response implements Built<Response, ResponseBuilder> {
   @BuiltValueField(wireName: 'total_results')
   int get totalResults;
 
+  int get page;
+
+  @BuiltValueField(wireName: 'total_pages')
+  int get totalPages;
+
   Response._();
   factory Response([updates(ResponseBuilder b)]) = _$Response;
 }
@@ -41,13 +46,13 @@ abstract class Property implements Built<Property, PropertyBuilder> {
   @BuiltValueField(wireName: 'img_url')
   String get imgUrl;
 
-//  @nullable
-//  @BuiltValueField(wireName: 'bathroom_number')
-//  int get bathroomNumber;
+  @nullable
+  @BuiltValueField(wireName: 'bathroom_number')
+  int get bathroomNumber;
 
-//  @nullable
-//  @BuiltValueField(wireName: 'bedroom_number')
-//  int get bedroomNumber;
+  @nullable
+  @BuiltValueField(wireName: 'bedroom_number')
+  int get bedroomNumber;
 
   @BuiltValueField(wireName: 'car_spaces')
   int get carSpaces;
