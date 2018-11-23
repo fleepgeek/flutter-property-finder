@@ -27,6 +27,7 @@ dependencies:
   built_value: '>=5.5.5 <7.0.0'
 
   font_awesome_flutter: ^8.2.0
+  url_launcher: ^4.0.1
 
 dev_dependencies:
 #  flutter_test:

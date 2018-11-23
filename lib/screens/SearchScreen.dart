@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_property_finder/models/property_scoped_model.dart';
+import 'package:flutter_property_finder/screens/detail_screen.dart';
 import 'package:flutter_property_finder/ui_widgets/property_item.dart';
 import 'package:flutter_property_finder/ui_widgets/search.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -27,11 +28,11 @@ class SearchScreenState extends State<SearchScreen> {
     controller.dispose();
   }
 
-  void _scrollListener(){
+  void _scrollListener() {
     var props = PropertyScopedModel.of(context);
-    if(controller.position.pixels == controller.position.maxScrollExtent){
+    if (controller.position.pixels == controller.position.maxScrollExtent) {
       print("Reached end");
-      if(!props.isLoadingMore && props.hasMorePages){
+      if (!props.isLoadingMore && props.hasMorePages) {
         page++;
         print("UI page: $page");
         props.getProperties(props.placeName, page);
@@ -72,20 +73,23 @@ class SearchScreenState extends State<SearchScreen> {
                       : SliverList(
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
-                              print("Index: $index");
-                              if(index == model.getPropertyCount()){
-                                if(model.hasMorePages){
+//                              print("Index: $index");
+                              if (index == model.getPropertyCount()) {
+                                if (model.hasMorePages) {
                                   return Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                                    child: Center(child: CircularProgressIndicator()),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16.0),
+                                    child: Center(
+                                        child: CircularProgressIndicator()),
                                   );
                                 }
                               } else if (index == 0) {
                                 return Container(
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
-                                    border: Border(bottom: BorderSide(color: Colors.grey[300]))
-                                  ),
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey[300]))),
                                   child: Text(
                                     "${model.totalResults} results",
                                     style: Theme.of(context)
@@ -97,7 +101,17 @@ class SearchScreenState extends State<SearchScreen> {
                               } else {
                                 return Column(
                                   children: <Widget>[
-                                    PropertyItem(model.properties[index - 1]),
+                                    InkWell(
+                                      child: PropertyItem(
+                                          model.properties[index - 1]),
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailScreen(model.properties[index - 1])),
+                                        );
+                                      },
+                                    ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 16.0),

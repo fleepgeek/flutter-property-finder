@@ -89,7 +89,7 @@ class PropertyScopedModel extends Model{
       _hasMorePages = false;
     }
 
-    print(nestoria.response.page);
+//    print(nestoria.response.page);
 
     if(page == 1){
       _isLoading = false;

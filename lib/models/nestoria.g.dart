@@ -535,6 +535,7 @@ class _$Property extends Property {
   final String datasourceName;
   @override
   final int updatedDays;
+  BuiltList<String> __keyWordList;
 
   factory _$Property([void updates(PropertyBuilder b)]) =>
       (new PropertyBuilder()..update(updates)).build();
@@ -574,6 +575,9 @@ class _$Property extends Property {
       throw new BuiltValueNullFieldError('Property', 'priceFormatted');
     }
   }
+
+  @override
+  BuiltList<String> get keyWordList => __keyWordList ??= super.keyWordList;
 
   @override
   Property rebuild(void updates(PropertyBuilder b)) =>

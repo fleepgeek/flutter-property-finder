@@ -40,7 +40,7 @@ class PropertyItem extends StatelessWidget {
                       style: TextStyle(color: Colors.deepPurple),
                     ),
                     Text(
-                      "By ${property.listerName}" ?? "unavailable",
+                      "By ${property.listerName ?? "unavailable"}",
                       style: Theme.of(context)
                           .textTheme
                           .body2
