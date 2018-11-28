@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_property_finder/models/property_scoped_model.dart';
-import 'package:flutter_property_finder/screens/SearchScreen.dart';
+import 'package:flutter_property_finder/api/property_scoped_model.dart';
+import 'package:flutter_property_finder/screens/search_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 void main() => runApp(MyApp());
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-//    propertyScopedModel.getProperties();
+    propertyScopedModel.initializeValues();
 
     return ScopedModel<PropertyScopedModel>(
       model: propertyScopedModel,

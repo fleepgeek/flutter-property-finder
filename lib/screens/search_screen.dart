@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_property_finder/models/property_scoped_model.dart';
+import 'package:flutter_property_finder/api/property_scoped_model.dart';
 import 'package:flutter_property_finder/screens/detail_screen.dart';
 import 'package:flutter_property_finder/ui_widgets/property_item.dart';
 import 'package:flutter_property_finder/ui_widgets/search.dart';
@@ -74,7 +74,7 @@ class SearchScreenState extends State<SearchScreen> {
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
 //                              print("Index: $index");
-                              if (index == model.getPropertyCount()) {
+                              if (index == model.getPropertyCount() + 1) {
                                 if (model.hasMorePages) {
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -83,6 +83,7 @@ class SearchScreenState extends State<SearchScreen> {
                                         child: CircularProgressIndicator()),
                                   );
                                 }
+                                return Container();
                               } else if (index == 0) {
                                 return Container(
                                   padding: const EdgeInsets.all(16),
@@ -124,7 +125,7 @@ class SearchScreenState extends State<SearchScreen> {
                                 );
                               }
                             },
-                            childCount: model.getPropertyCount() + 1,
+                            childCount: model.getPropertyCount() + 2,
                           ),
                         )
             ],

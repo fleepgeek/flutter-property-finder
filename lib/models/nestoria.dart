@@ -21,11 +21,14 @@ abstract class Response implements Built<Response, ResponseBuilder> {
   @nullable
   BuiltList<Property> get listings;
 
+  @nullable
   @BuiltValueField(wireName: 'total_results')
   int get totalResults;
 
+  @nullable
   int get page;
 
+  @nullable
   @BuiltValueField(wireName: 'total_pages')
   int get totalPages;
 

@@ -72,22 +72,31 @@ class _$ResponseSerializer implements StructuredSerializer<Response> {
   @override
   Iterable serialize(Serializers serializers, Response object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'total_results',
-      serializers.serialize(object.totalResults,
-          specifiedType: const FullType(int)),
-      'page',
-      serializers.serialize(object.page, specifiedType: const FullType(int)),
-      'total_pages',
-      serializers.serialize(object.totalPages,
-          specifiedType: const FullType(int)),
-    ];
+    final result = <Object>[];
     if (object.listings != null) {
       result
         ..add('listings')
         ..add(serializers.serialize(object.listings,
             specifiedType:
                 const FullType(BuiltList, const [const FullType(Property)])));
+    }
+    if (object.totalResults != null) {
+      result
+        ..add('total_results')
+        ..add(serializers.serialize(object.totalResults,
+            specifiedType: const FullType(int)));
+    }
+    if (object.page != null) {
+      result
+        ..add('page')
+        ..add(serializers.serialize(object.page,
+            specifiedType: const FullType(int)));
+    }
+    if (object.totalPages != null) {
+      result
+        ..add('total_pages')
+        ..add(serializers.serialize(object.totalPages,
+            specifiedType: const FullType(int)));
     }
 
     return result;
@@ -386,17 +395,7 @@ class _$Response extends Response {
       (new ResponseBuilder()..update(updates)).build();
 
   _$Response._({this.listings, this.totalResults, this.page, this.totalPages})
-      : super._() {
-    if (totalResults == null) {
-      throw new BuiltValueNullFieldError('Response', 'totalResults');
-    }
-    if (page == null) {
-      throw new BuiltValueNullFieldError('Response', 'page');
-    }
-    if (totalPages == null) {
-      throw new BuiltValueNullFieldError('Response', 'totalPages');
-    }
-  }
+      : super._();
 
   @override
   Response rebuild(void updates(ResponseBuilder b)) =>
